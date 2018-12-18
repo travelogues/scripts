@@ -14,8 +14,8 @@ logging.basicConfig(handlers=[logging.FileHandler('sacha.log'),
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%d/%m/%Y %I:%M:%S %p')
 
-csv_file = '../../tl-classification/data/travelogues-groundtruth/17th_complete_2018-08-26.csv'
-target_dir = '../../tl-classification/data/travelogues-groundtruth/17th_century'
+csv_file = '../../tl-classification/data/travelogues-groundtruth/16_Jh_gesamt-digital_20181010.csv'
+target_dir = '../../tl-classification/data/travelogues-groundtruth/16th_century/balanced'
 
 print('Now processing %s.' % csv_file)
 
@@ -26,7 +26,7 @@ with open(csv_file) as csvfile:
         barcode = barcode.split('/')[4]
 
         logging.info('Now requesting %s' % barcode)
-        r = requests.get('http://iiif.onb.ac.at/presentation/ABO/%s/manifest/' % barcode)
+        r = requests.get('https://iiif.onb.ac.at/presentation/ABO/%s/manifest/' % barcode)
         logging.info('HTTP status: %s' % r.status_code)
 
         if r.status_code != 200:
@@ -40,18 +40,17 @@ with open(csv_file) as csvfile:
                 json.dump(manifest['metadata'], fp=metadata, sort_keys=True, indent=4)
 
             # store content
-            with open('%s/travelogue/%s.txt' % (target_dir, barcode[2:]), 'w', encoding='utf-8') as fulltext:
+            with open('%s/travelogue/%s.txt' % (target_dir, barcode[3:]), 'w', encoding='utf-8') as fulltext:
                 # iterate the manifest
                 logging.info('Now requesting %d manifest pages...' % len(manifest['sequences'][0]['canvases']))
                 for canvas in tqdm(manifest['sequences'][0]['canvases']):
                     content = canvas['otherContent'][0]['resources'][0]['resource']['@id']
                     if content[-3:] == 'txt':
-                        canvas_text = requests.get(content)
+                        canvas_text = requests.get('https' + content[4:])  # account for the change from http tp https
                         status = canvas_text.status_code
                         if status == 200:
-                            pass
+                            fulltext.write(canvas_text.text)
+                            fulltext.write('\n')
                         else:
                             logging.critical('Requesting %s produced a HTTP %s' % (content, status))
-                        fulltext.write(canvas_text.text)
-                        fulltext.write('\n')
                         time.sleep(0.01)
