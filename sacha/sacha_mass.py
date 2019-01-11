@@ -20,7 +20,7 @@ logging.basicConfig(handlers=[logging.FileHandler('sacha_multi.log'),
 def download(barcode):
     start_time = time.time()
     logging.info('%s - now requesting.' % barcode)
-    r = requests.get('http://iiif.onb.ac.at/presentation/ABO/%s/manifest/' % barcode)
+    r = requests.get('https://iiif.onb.ac.at/presentation/ABO/%s/manifest/' % barcode)
 
     if r.status_code != 200:
         logging.critical('%s - requesting produced a HTTP %s' % (barcode, r.status_code))
@@ -39,7 +39,9 @@ def download(barcode):
             for canvas in manifest['sequences'][0]['canvases']:
                 content = canvas['otherContent'][0]['resources'][0]['resource']['@id']
                 if content[-3:] == 'txt':
-                    canvas_text = requests.get(content)
+                    # canvas_text = requests.get(content)
+                    # quick fix for ONB switch to https, as this is not changed in the manifests yet
+                    canvas_text = requests.get('https' + content[4:])
                     status = canvas_text.status_code
                     if status == 200:
                         pass
@@ -53,8 +55,9 @@ def download(barcode):
 
             duration = time.time() - start_time
             average = duration / pages
-            logging.info('%s - successfully stored to disk. Time needed: %.2fs for %d pages (average %.2f pages per second).'
+            logging.info('%s - successfully stored to disk. Time needed: %.2fs for %d pages (averaging %.2f seconds per page).'
                          % (barcode, duration, pages, average))
+    time.sleep(0.01)
 
 
 if __name__ == '__main__':
