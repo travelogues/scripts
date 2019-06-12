@@ -1,0 +1,29 @@
+MARC controlfield,MARC extra selector,Liste,Label
+009,,,Systemnummer
+001,,,MMS-ID
+856 4 0 $$u,,,Volltext
+100 1 _ $$a ; 100 1 _ $$0,,,Verfasser ; GND-ID
+240 1 0 $$a>130 0 _ $$a,,,Werktitel
+490 1 _ $$a ; 490 1 _ $$v,,,Reihentitel ; Bandzählung
+245 0 0 $$a ; 245 0 0 $$b,,,Haupttitel ; Titelzusatz
+245 0 0 $$n ; 245 0 0 $$p,,,Bandzählung ; Titel des Bandes
+264 _ 1 $$a,,,Verlagsort
+751 _ _ $$0,,;,Verlagsort normiert
+264 _ 1 $$b,,,Verleger
+700 1 _ $$a>710 2 _ $$a,$$4 pbl,;,Verleger normiert
+700 1 _ $$a,$$4 prt,,Drucker
+264 _ 1 $$c>264 _ 3 $$c,,,Erscheinungsjahr
+300 _ _ $$a,,,Kollation
+300 _ _ $$b,,,Illustrationen
+300 _ _ $$c,,,Format
+500 _ _ $$a,,;;;,Anm. zu Illustrationen ;;; Anm. zu Kollation ;;; Bibliografie ;;; Anmerkungen
+041 1 _ $$a>041 _ _ $$a,,;,Sprache
+041 1 _ $$h,,,Originalsprache
+024 7 _ $$a,,,Standardnummer
+700 1 _ $$a ; 700 1 _ $$a ; 700 1 _ $$a ; 700 1 _ $$a,$$4 edt ; $$4 ctb ; $$4 oth ; $$4 com,;,Beteiligte
+700 1 _ $$a ; 700 1 _ $$a,$$4 egr ; $$4 ill,;,Illustratoren
+700 1 _ $$a,$$4 dte,;,Widmungsempfänger
+655 _ 7 $$a,,;,Art des Inhalts
+505 8 0 $$a >505 8 0 $$t,,,Inhalt
+689 * * $$a,,;,Schlagworte
+AVA _ _ $$d ; AVA _ _ $$i ; AVA _ _ $$j,,,Signatur
